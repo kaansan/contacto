@@ -13,7 +13,7 @@ const Item = ({ contact }) => {
 export default NewContacts = (props) => {
     const { data } = props
 
-    if (data.length > 0) {
+    if (data?.length > 0) {
         return (
             <FlatList
                 style={styles.list}

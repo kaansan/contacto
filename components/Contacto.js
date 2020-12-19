@@ -1,12 +1,11 @@
 import React from 'react';
 import { 
-    StyleSheet, 
     Text, 
     View, 
     Modal, 
     TouchableHighlight, 
-    Dimensions,  
 } from 'react-native';
+import { styles } from '../styles.js'
 import * as Contacts from 'expo-contacts';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
@@ -64,7 +63,7 @@ export default class Contacto extends React.Component{
                         
                           // id for FlatList
                           let id = Math.floor(Math.random() * Math.floor(10000))
-                          // Finding unrecorded phone numbers !
+                          // Finding unrecorded phone numbers
                           const exist = numbers.find((currentNumber) => currentNumber === number)
                             
                           if (!exist) {
@@ -78,12 +77,18 @@ export default class Contacto extends React.Component{
 
                       this.setState({ newContacts })
                       const newRecordUri = createFileName(FileSystem, 'new_contacts.vcf')
-                      await this.writeContactsToFile(newRecordUri, vCardTotal)
+                      if (vCardTotal) {
+                        await this.writeContactsToFile(newRecordUri, vCardTotal)
+                      } else {
+                          alert('Your contacts are up to date !')
+                      }
                     }          
                 } catch (err) {
                     throw new Error(err)
                 }
             }
+        } else {
+            alert('You have to give permission for comparing contacts !')
         }
     }
 
@@ -133,21 +138,15 @@ export default class Contacto extends React.Component{
     }
 
     sendOldPhoneContacts = async (uri) => {
-        const options = {
-            mimeType: 'text/x-vcard',
-            dialogTitle: 'Share vcard',
-            UTI: 'text/vcard',
-        }
-
         if (!(await Sharing.isAvailableAsync())) {
             alert(`Uh oh, sharing isn't available on your platform`)
             return
         }
 
         if (uri) {
-            await Sharing.shareAsync(uri, options)
+            await Sharing.shareAsync(uri)
         } else {
-            alert('There is no contacts vcf file !')
+            alert('There is no contacts.json file !')
         }
     }
 
@@ -162,6 +161,36 @@ export default class Contacto extends React.Component{
 
     setVisibilityOfModal = (visible) => this.setState({ oldContactModal: visible })
 
+    renderSection = () => {
+        const { newContacts } = this.state
+
+        if (newContacts.length > 0) {
+            return (
+                <View>
+                    <Text style={styles.usage}>Now press Import contacs, and choose file called: <Text style={{ color: 'black' }}>new_contacts.vcf</Text>, It'll import below contacts.</Text>
+                    <TouchableHighlight
+                        underlayColor={'grey'}
+                        style={styles.importButton}
+                        onPress={() => this.importNewContacts()}
+                    >
+                        <Text style={styles.textStyle}>Import Contacts</Text>
+                    </TouchableHighlight>
+                    <NewContacts data={newContacts} />
+                </View>
+            )
+        } else {
+            return (
+                <View style={styles.information}>
+                    <Text style={styles.infoHeader}>How to use ?</Text>
+                    <Text style={styles.infoText}>Send your old phone contacts to your email as contacts.json.</Text>
+                    <Text style={styles.infoText}>Download contacts.json on your new phone</Text>
+                    <Text style={styles.infoText}>Pick contacts.json, this will create a new_contacts.vcf file.</Text>
+                    <Text style={styles.infoText}>Then you can use new_contacts.vcf to add new contacts to your phone.</Text>
+                </View>
+            )
+        }
+    }
+
     render() {
         const { oldContactModal, newContacts } = this.state
 
@@ -172,19 +201,7 @@ export default class Contacto extends React.Component{
                 <Text style={styles.altText}>will help rid of your pain</Text>
               </View>
               <View style={styles.section}>
-                {newContacts.length > 0 && (
-                    <View>
-                        <Text style={styles.usage}>Now choose file called: <Text style={{ color: 'black' }}>new_contacts.vcf</Text>, this will import below contacts.</Text>
-                        <TouchableHighlight
-                            underlayColor={'grey'}
-                            style={styles.importButton}
-                            onPress={() => this.importNewContacts()}
-                        >
-                            <Text style={styles.textStyle}>Import Contacts</Text>
-                        </TouchableHighlight>
-                        <NewContacts data={newContacts} />
-                    </View>
-                )}
+                { this.renderSection() }
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -237,101 +254,3 @@ export default class Contacto extends React.Component{
           )
     }
 }
-
-const windowHeight = Dimensions.get('window').height * 0.12
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 6,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    header: {
-        flex: 1,
-        marginVertical: windowHeight,
-        justifyContent: 'center',
-    },
-    section: {
-        flex: 4,
-        justifyContent: 'center'
-    },
-    bottom: {
-        flex: 1,
-        flexDirection: 'row',
-        textAlign: 'center'
-    },
-    importButton: {
-        backgroundColor: '#FF6495',
-        borderRadius: 10,
-        padding: 10,
-        elevation: 1,
-        textAlign: 'center',
-        alignItems: 'center'
-    },
-    button: {
-      marginVertical: 10,
-      backgroundColor: 'red',
-    },
-    welcomeText: {
-      fontSize: 50,
-      textAlign: 'center',
-    },
-    altText: {
-        fontSize: 20,
-        textAlign: 'center',
-    },
-    usage: {
-        fontSize: 15,
-        textAlign: 'center',
-        marginBottom: Dimensions.get('window').height * 0.01,
-        backgroundColor: '#FF6495',
-        color: 'white',
-        marginVertical: 3
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: '#361999',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-      },
-      openButton: {
-        backgroundColor: '#F194FF',
-        borderRadius: 10,
-        padding: 10,
-        elevation: 1,
-        marginVertical: 2,
-        margin: 5,
-        width: 150,
-        height: 50
-      },
-      textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        alignSelf: 'center',
-        height: 20,
-        maxWidth: 150
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 15
-      },
-      centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-      },
-});
