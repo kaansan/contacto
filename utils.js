@@ -9,9 +9,9 @@ const getVcardTemplate = (name, number) => {
     return vcard
 }
 
-const createFileName = (FileSystem, fileName) => `${FileSystem.cacheDirectory}${fileName}` 
+const createFileName = (FileSystem, fileName) => `${FileSystem.cacheDirectory}${fileName}`
 
 export {
     getVcardTemplate,
-    createFileName
+    createFileName,
 }

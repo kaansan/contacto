@@ -1,12 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
 const windowHeight = Dimensions.get('window').height * 0.12
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
-      flex: 6,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 6,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     header: {
         flex: 1,
@@ -15,12 +15,12 @@ export const styles = StyleSheet.create({
     },
     section: {
         flex: 4,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     bottom: {
         flex: 1,
         flexDirection: 'row',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     information: {
         marginBottom: 200,
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         width: 300,
         padding: 10,
-        marginLeft: Dimensions.get('window').width * 0.02
+        marginLeft: Dimensions.get('window').width * 0.02,
     },
     infoHeader: {
         fontSize: 30,
@@ -45,15 +45,15 @@ export const styles = StyleSheet.create({
         padding: 10,
         elevation: 1,
         textAlign: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     button: {
-      marginVertical: 10,
-      backgroundColor: 'red',
+        marginVertical: 10,
+        backgroundColor: 'red',
     },
     welcomeText: {
-      fontSize: 50,
-      textAlign: 'center',
+        fontSize: 50,
+        textAlign: 'center',
     },
     altText: {
         fontSize: 20,
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
         marginBottom: Dimensions.get('window').height * 0.01,
         backgroundColor: '#FF6495',
         color: 'white',
-        marginVertical: 3
+        marginVertical: 3,
     },
     modalView: {
         margin: 20,
@@ -75,14 +75,14 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-      },
-      openButton: {
+    },
+    openButton: {
         backgroundColor: '#F194FF',
         borderRadius: 10,
         padding: 10,
@@ -90,26 +90,28 @@ export const styles = StyleSheet.create({
         marginVertical: 2,
         margin: 5,
         width: 150,
-        height: 50
-      },
-      textStyle: {
+        height: 50,
+    },
+    textStyle: {
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
         alignSelf: 'center',
         height: 20,
-        maxWidth: 150
-      },
-      modalText: {
+        maxWidth: 150,
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: 'center',
         color: 'white',
-        fontSize: 15
-      },
-      centeredView: {
+        fontSize: 15,
+    },
+    centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
-      },
-});
+    },
+})
+
+module.exports = styles
