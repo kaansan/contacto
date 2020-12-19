@@ -13,7 +13,7 @@ import * as IntentLauncher from 'expo-intent-launcher'
 import { styles } from '../styles.js'
 
 import { getVcardTemplate, createFileName } from '../utils.js'
-import NewContacts from './NewContacts'
+import { NewContacts } from './NewContacts'
 
 export default class Contacto extends React.Component {
     constructor(props) {
@@ -57,7 +57,7 @@ export default class Contacto extends React.Component {
                         })
 
                         const newContacts = []
-                        let vCardTotal
+                        let vCardTotal = ''
                         parsedContacts.map((contact) => {
                             const { name, number } = contact
 
@@ -65,7 +65,7 @@ export default class Contacto extends React.Component {
                             const id = Math.floor(Math.random() * Math.floor(10000))
                             // Finding unrecorded phone numbers
                             const exist = numbers.find((currentNumber) => currentNumber === number)
-
+                            
                             if (!exist) {
                                 newContacts.push({ id, name, number })
                                 const vCard = getVcardTemplate(name, number)
@@ -75,10 +75,12 @@ export default class Contacto extends React.Component {
                             }
                         })
 
-                        this.setState({ newContacts })
-                        const newRecordUri = createFileName(FileSystem, 'new_contacts.vcf')
+                        console.log(vCardTotal)
+
+                        const newRecordsUri = createFileName(FileSystem, 'new_contacts.vcf')
+                        this.setState({ newContacts, newRecordsUri })
                         if (vCardTotal) {
-                            await this.writeContactsToFile(newRecordUri, vCardTotal)
+                            await this.writeContactsToFile(newRecordsUri, vCardTotal)
                         } else {
                             alert('Your contacts are up to date !')
                         }
@@ -92,21 +94,17 @@ export default class Contacto extends React.Component {
         }
     }
 
-    importNewContacts = async () => {
-        const result = await DocumentPicker.getDocumentAsync({})
-
-        if (result.type === 'success') {
-            const { uri } = result
-
-            // this will ensure, mime type is vCard, it'll import new contacts !
-            await FileSystem.getContentUriAsync(uri).then((cUri) => {
-                IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
-                    data: cUri.uri,
-                    type: 'text/x-vcard',
-                    flags: 1,
-                })
+    importNewContacts = async (uri) => {
+        // this will ensure, mime type is vCard, it'll import new contacts !
+        await FileSystem.getContentUriAsync(uri).then((cUri) => {
+            console.log(uri)
+            console.log(cUri)
+            IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+                data: cUri,
+                type: 'text/x-vcard',
+                flags: 1,
             })
-        }
+        })
     }
 
     getPhoneContacts = async () => {
@@ -162,7 +160,7 @@ export default class Contacto extends React.Component {
     setVisibilityOfModal = (visible) => this.setState({ oldContactModal: visible })
 
     renderSection = () => {
-        const { newContacts } = this.state
+        const { newContacts, newRecordsUri } = this.state
 
         if (newContacts.length > 0) {
             return (
@@ -173,7 +171,7 @@ export default class Contacto extends React.Component {
                     <TouchableHighlight
                         underlayColor="grey"
                         style={styles.importButton}
-                        onPress={() => this.importNewContacts()}
+                        onPress={() => this.importNewContacts(newRecordsUri)}
                     >
                         <Text style={styles.textStyle}>Import Contacts</Text>
                     </TouchableHighlight>
