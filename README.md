@@ -1,9 +1,8 @@
 
-# Contacto <img src="./assets/contacto_icon.png" width="30" height="30" />
+# Contacto <img src="./assets/contacto_icon.png" width="50" height="50" />
 
-<img src="./assets/contacto_1.jpg" width="300" height="500" />
-<img src="./assets/contacto_2.jpg" width="300" height="500" />
-<img src="./assets/contacto_3.jpg" width="300" height="500" />
+| [![ss_1](./assets/contacto_1.jpg)]() | [![ss_2](./assets/contacto_2.jpg)]() | [![ss_2](./assets/contacto_3.jpg)]() |
+|:---:|:---:|:---:|
 
 # Description
   Contacto is an android app, that will transfer your contacts to your new phone.
