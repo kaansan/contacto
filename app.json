@@ -6,8 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/contacto_icon.png",
     "splash": {
-      "image": "./assets/contacto_icon.png",
-      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -17,14 +15,7 @@
       "**/*"
     ],
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/contacto_icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "package": "contacto.android.app"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
