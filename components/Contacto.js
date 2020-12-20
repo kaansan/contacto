@@ -10,7 +10,6 @@ import * as Sharing from 'expo-sharing'
 import * as FileSystem from 'expo-file-system'
 import * as DocumentPicker from 'expo-document-picker'
 import * as IntentLauncher from 'expo-intent-launcher'
-import * as MediaLibrary from 'expo-media-library'
 import { styles } from '../styles.js'
 
 import { getVcardTemplate, createFileName } from '../utils.js'
@@ -32,7 +31,7 @@ export default class Contacto extends React.Component {
         const result = await DocumentPicker.getDocumentAsync({})
 
         if (result.type === 'success') {
-            if (!result.name.includes('.json')) {
+            if (!result.name.includes('contacts.json')) {
                 alert('You have to select contacts.json')
                 return        
             } else {
