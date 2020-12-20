@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "contacto-app",
-    "slug": "contacto-app",
+    "name": "contacto",
+    "slug": "contacto",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/contacto_icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/contacto_icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,13 +16,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "contacto.ios.app"
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/contacto_icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "contacto.android.app"

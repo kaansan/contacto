@@ -32,8 +32,12 @@ export default class Contacto extends React.Component {
         const result = await DocumentPicker.getDocumentAsync({})
 
         if (result.type === 'success') {
-            const message = `You've picked the file: ${result.name}`
-            alert(message)
+            if (!result.name.includes('.json')) {
+                alert('You have to select contacts.json')
+                return        
+            } else {
+                alert(`You've picked the file: ${result.name}`)
+            }
 
             const { uri } = result
             if (uri) {
