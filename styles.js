@@ -60,11 +60,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     usage: {
-        fontSize: 15,
+        fontSize: 17,
         textAlign: 'center',
         marginBottom: Dimensions.get('window').height * 0.01,
         backgroundColor: '#FF6495',
         color: 'white',
+        padding: 10,
+        borderRadius: 10,
         marginVertical: 3,
     },
     modalView: {

@@ -1,15 +1,11 @@
-const getVcardTemplate = (name, number) => {
-    const vcard = `
-    BEGIN:VCARD
-    VERSION:2.1
-    N:;${name};;;
-    TEL;CELL:${number}
-    END:VCARD
-    `
-    return vcard
-}
-
-const createFileName = (FileSystem, fileName) => `${FileSystem.cacheDirectory}${fileName}`
+const getVcardTemplate = (name, number) =>`
+BEGIN:VCARD
+VERSION:2.1
+N:;${name};;;
+TEL;CELL:${number}
+END:VCARD
+`
+const createFileName = (FileSystem, fileName) => `${FileSystem.documentDirectory}${fileName}`
 
 export {
     getVcardTemplate,

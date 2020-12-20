@@ -10,7 +10,7 @@ const Item = ({ contact }) => {
             <Text style={styles.title}>
                 {name}
                 {' '}
-            |{number}
+            |{' '}{number}
             </Text>
         </View>
     )

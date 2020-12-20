@@ -10,6 +10,7 @@ import * as Sharing from 'expo-sharing'
 import * as FileSystem from 'expo-file-system'
 import * as DocumentPicker from 'expo-document-picker'
 import * as IntentLauncher from 'expo-intent-launcher'
+import * as MediaLibrary from 'expo-media-library'
 import { styles } from '../styles.js'
 
 import { getVcardTemplate, createFileName } from '../utils.js'
@@ -21,6 +22,7 @@ export default class Contacto extends React.Component {
         this.state = {
             oldContactModal: null,
             newContacts: [],
+            newRecordsUri: null
         }
     }
 
@@ -30,7 +32,7 @@ export default class Contacto extends React.Component {
         const result = await DocumentPicker.getDocumentAsync({})
 
         if (result.type === 'success') {
-            const message = `You've picked the file: ${result.name}, Now select the vcf file called new_contacts.vcf`
+            const message = `You've picked the file: ${result.name}`
             alert(message)
 
             const { uri } = result
@@ -61,21 +63,19 @@ export default class Contacto extends React.Component {
                         parsedContacts.map((contact) => {
                             const { name, number } = contact
 
-                            // id for FlatList
-                            const id = Math.floor(Math.random() * Math.floor(10000))
                             // Finding unrecorded phone numbers
                             const exist = numbers.find((currentNumber) => currentNumber === number)
                             
                             if (!exist) {
+                                // id for FlatList
+                                const id = Math.floor(Math.random() * Math.floor(10000))
                                 newContacts.push({ id, name, number })
                                 const vCard = getVcardTemplate(name, number)
-                                vCardTotal += vCard
+                                vCardTotal += vCard.trim()
                             } else {
                                 console.log(`${number} is exist !`)
                             }
                         })
-
-                        console.log(vCardTotal)
 
                         const newRecordsUri = createFileName(FileSystem, 'new_contacts.vcf')
                         this.setState({ newContacts, newRecordsUri })
@@ -94,11 +94,10 @@ export default class Contacto extends React.Component {
         }
     }
 
-    importNewContacts = async (uri) => {
-        // this will ensure, mime type is vCard, it'll import new contacts !
-        await FileSystem.getContentUriAsync(uri).then((cUri) => {
-            console.log(uri)
-            console.log(cUri)
+    importNewContacts = async () => {
+        const { newRecordsUri } = this.state
+
+        await FileSystem.getContentUriAsync(newRecordsUri).then((cUri) => {
             IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
                 data: cUri,
                 type: 'text/x-vcard',
@@ -160,18 +159,18 @@ export default class Contacto extends React.Component {
     setVisibilityOfModal = (visible) => this.setState({ oldContactModal: visible })
 
     renderSection = () => {
-        const { newContacts, newRecordsUri } = this.state
+        const { newContacts } = this.state
 
         if (newContacts.length > 0) {
             return (
                 <View>
                     <Text style={styles.usage}>
-                      Now press Import contacs, and choose file called:<Text style={{ color: 'black' }}>new_contacts.vcf</Text>It&apos;ll import below contacts.
+                      Now press Import contacts
                     </Text>
                     <TouchableHighlight
                         underlayColor="grey"
                         style={styles.importButton}
-                        onPress={() => this.importNewContacts(newRecordsUri)}
+                        onPress={() => this.importNewContacts()}
                     >
                         <Text style={styles.textStyle}>Import Contacts</Text>
                     </TouchableHighlight>
@@ -182,10 +181,9 @@ export default class Contacto extends React.Component {
         return (
             <View style={styles.information}>
                 <Text style={styles.infoHeader}>How to use ?</Text>
-                <Text style={styles.infoText}>Send your old phone contacts to your email as contacts.json.</Text>
+                <Text style={styles.infoText}>Send your old phone contacts to your email</Text>
                 <Text style={styles.infoText}>Download contacts.json on your new phone</Text>
-                <Text style={styles.infoText}>Pick contacts.json, this will create a new_contacts.vcf file.</Text>
-                <Text style={styles.infoText}>Then you can use new_contacts.vcf to add new contacts to your phone.</Text>
+                <Text style={styles.infoText}>Pick contacts.json, then press import contacts.</Text>
             </View>
         )
     }
