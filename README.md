@@ -1,27 +1,20 @@
-# contacto
 
-# main phone
- - get contacts on your phone with expo contactss
- - get contacts and send with email on your other phone old phone.
- - once you get data on your main app, phone. you can import them.
+# Contacto <img src="./assets/contacto_icon.png" width="30" height="30" />
 
+<img src="./assets/contacto_1.jpg" width="300" height="500" />
+<img src="./assets/contacto_2.jpg" width="300" height="500" />
+<img src="./assets/contacto_3.jpg" width="300" height="500" />
 
- data will be aggregated with
+# Description
+  Contacto is an android app, that will transfer your contacts to your new phone.
+  Project is created with Expo, React Native.
 
-  - your new phone numbers
-  - your old phone numbers
-  - compare and find not recorded numbers on your new phone data.
-  - create a new data with unrecorded numbers. export as vcf probably.
-  - send this via email. to your email. to your main app. you can use that vcf to import unrecorded data
+# Problem 
+  Whenever you change your smartphone, you need to transfer your contacts to your new phone.
+  Generally, I've forgot to store my contacts on google or any cloud service or somewhere.
+  You can prefer not to store your contacts in google for some reason.
 
-
-
-User only do
-
-    - download same app on two phones.
-    - old phone will send contacts data in vcf format via email to main app, phone
-    - main app, phone will aggregate that data then, create a new data and use that.
-    - now you can import unrecorded numbers on your new phone. even to google contacts
-    - real life problem solved !
-
-    3 steps to do that I guess.
+# Solution
+  Contacto will create a file called contact.json. You can use this file on your new phone. You can send it via email or with any service.
+  With your new smartphone, you can use that json file to compare values on your new phone. There might be numbers you forgot to add while adding manually.
+  It'll create a new_contact.vcf on the fly then you can import on your phone.
