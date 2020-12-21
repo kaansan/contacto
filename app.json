@@ -5,15 +5,16 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/contacto_icon.png",
-    "splash": {
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "splash": {
+      "image": "./assets/contacto_1.png",
+      "resizeMode": "cover"
+    },
     "android": {
       "package": "contacto.android.app"
     }
