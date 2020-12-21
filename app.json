@@ -16,7 +16,8 @@
       "resizeMode": "contain"
     },
     "android": {
-      "package": "contacto.android.app"
+      "package": "contacto.android.app",
+      "versionCode": 2
     }
   }
 }
