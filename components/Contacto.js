@@ -56,25 +56,25 @@ export default class Contacto extends React.Component {
                         const numbers = []
                         data.map((number) => {
                             const { phoneNumbers } = number
-                            let phoneNumber = phoneNumbers[0]?.number
-                            phoneNumber = phoneNumber.replace(/\s+/g, '')
-                            numbers.push(phoneNumber)
+                            if (phoneNumbers) {
+                                let phoneNumber = phoneNumbers[0]?.number
+                                phoneNumber = phoneNumber.replace(/\s+/g, '')
+                                numbers.push(phoneNumber)
+                            }
                         })
 
                         const newContacts = []
                         let vCardTotal = ''
                         parsedContacts.map((contact) => {
-                            const { name, number } = contact
+                            const { name, number, id } = contact
 
                             // Finding unrecorded phone numbers
                             const exist = numbers.find((currentNumber) => currentNumber === number)
                             
                             if (!exist) {
-                                // id for FlatList
-                                const id = Math.floor(Math.random() * Math.floor(10000))
                                 newContacts.push({ id, name, number })
                                 const vCard = getVcardTemplate(name, number)
-                                vCardTotal += vCard.trim()
+                                vCardTotal += vCard
                             } else {
                                 console.log(`${number} is exist !`)
                             }
@@ -123,12 +123,14 @@ export default class Contacto extends React.Component {
             // Getting data we need.
             const contacts = []
             data.map((number) => {
-                const { name, phoneNumbers } = number
-                let phoneNumber = phoneNumbers[0]?.number
-                phoneNumber = phoneNumber.replace(/\s+/g, '')
-                contacts.push({ name, number: phoneNumber })
+                const { name, phoneNumbers, id } = number
+                if (name && phoneNumbers && id) {
+                    let phoneNumber = phoneNumbers[0]?.number
+                    phoneNumber = phoneNumber.replace(/\s+/g, '')
+                    contacts.push({ name, number: phoneNumber, id })
+                }
             })
-
+            
             // Let's write phone contacts to a json file.
             const jsonContacts = JSON.stringify(contacts)
             const uri = createFileName(FileSystem, 'contacts.json')
@@ -140,13 +142,12 @@ export default class Contacto extends React.Component {
     sendOldPhoneContacts = async (uri) => {
         if (!(await Sharing.isAvailableAsync())) {
             alert('Uh oh, sharing isn\'t available on your platform')
-            return
-        }
-
-        if (uri) {
-            await Sharing.shareAsync(uri)
         } else {
-            alert('There is no contacts.json file !')
+            if (uri) {
+                await Sharing.shareAsync(uri)
+            } else {
+                alert('There is no contacts.json file !')
+            }
         }
     }
 
